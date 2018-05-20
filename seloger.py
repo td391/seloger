@@ -42,15 +42,15 @@ def search_buy(cp, nb_pieces=0, nb_chambres=0, pxmin=0, pxmax=0, surfacemin=0):
         api_endpoint=api_endpoint + '&pxmax=' + str(pxmax)
     if surfacemin!=0:
         api_endpoint=api_endpoint + '&surfacemin=' + str(surfacemin)
-        
+
     print(api_endpoint)
-     
+
     response = requests.get(api_endpoint)
     return response
 
-    
+
 def look_search(xml):
-    
+
     tree = ET.fromstring(xml)
     idAnnonces=tree.xpath('//recherche//annonces//annonce//idAnnonce')
     annonces=[]
@@ -61,7 +61,14 @@ def look_search(xml):
     for dt in dtFraicheurs:
         dts.append(dt.text)
     return annonces, dts
-    
+
+
+# %%
+if __name__ == "__main__":
+    conf = define_search("Paris_16-20")
+    res = search_buy(conf)
+    annonces, dts = look_search(res.content)
+
 """
 POST https://outlook.office.com/api/v2.0/me/sendmail
 
